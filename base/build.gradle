@@ -1,0 +1,93 @@
+apply plugin: 'kotlin-multiplatform'
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion "29.0.2"
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+    // By default the android gradle plugin expects to find the kotlin source files in the folder 'main' and the
+    // test files in the folder 'test'. The following is to indicate that the source code files are in 'androidMain'
+    // and 'androidTest' folders.
+    sourceSets {
+        main {
+            manifest.srcFile 'src/androidMain/AndroidManifest.xml'
+            java.srcDirs = ['src/androidMain/kotlin']
+            res.srcDirs = ['src/androidMain/res']
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+kotlin {
+    targets {
+        // TODO: Uncomment to enable iOS build
+//        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith('iphoneos') \
+//                              ? presets.iosArm64 : presets.iosX64
+//
+//        fromPreset(iOSTarget, 'ios') {
+//            binaries {
+//                framework('SDK')
+//            }
+//        }
+
+        fromPreset(presets.android, 'android')
+    }
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation rootProject.ext.kotlin_stdlib
+                implementation rootProject.ext.kotlin_stdlib_common
+                implementation rootProject.ext.kotlin_reflect
+                implementation rootProject.ext.kotlinx_coroutines_core_common
+            }
+        }
+
+        androidMain {
+            dependencies {
+                implementation rootProject.ext.kotlin_stdlib_jdk7
+                implementation rootProject.ext.androidx_app_compat
+                implementation rootProject.ext.kotlinx_coroutines_android
+            }
+        }
+
+        iosMain {
+            dependencies {
+                implementation rootProject.ext.kotlinx_coroutines_native
+            }
+        }
+
+        commonTest {
+            dependencies {
+                implementation kotlin('test-common')
+                implementation kotlin('test-annotations-common')
+            }
+        }
+    }
+}
+
+// workaround for https://youtrack.jetbrains.com/issue/KT-27170
+configurations {
+    compileClasspath
+}

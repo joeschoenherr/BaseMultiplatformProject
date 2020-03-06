@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+    defaultConfig {
+        applicationId "com.schoenherr.base.demo"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/*.kotlin_module'
+    }
+}
+
+dependencies {
+    implementation project(':base')
+
+    implementation rootProject.ext.kotlin_stdlib_jdk7
+    implementation rootProject.ext.androidx_app_compat
+    implementation rootProject.ext.core_ktx
+    implementation rootProject.ext.androidx_app_compat
+    implementation rootProject.ext.core_ktx
+    testImplementation rootProject.ext.junit
+    androidTestImplementation rootProject.ext.runner
+    androidTestImplementation rootProject.ext.espresso_core
+}
