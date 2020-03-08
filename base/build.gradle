@@ -41,15 +41,14 @@ android {
 
 kotlin {
     targets {
-        // TODO: Uncomment to enable iOS build
-//        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith('iphoneos') \
-//                              ? presets.iosArm64 : presets.iosX64
-//
-//        fromPreset(iOSTarget, 'ios') {
-//            binaries {
-//                framework('SDK')
-//            }
-//        }
+        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith('iphoneos') \
+                              ? presets.iosArm64 : presets.iosX64
+
+        fromPreset(iOSTarget, 'ios') {
+            binaries {
+                framework('SDK')
+            }
+        }
 
         fromPreset(presets.android, 'android')
     }
@@ -60,7 +59,7 @@ kotlin {
                 implementation rootProject.ext.kotlin_stdlib
                 implementation rootProject.ext.kotlin_stdlib_common
                 implementation rootProject.ext.kotlin_reflect
-                implementation rootProject.ext.kotlinx_coroutines_core_common
+//                implementation rootProject.ext.kotlinx_coroutines_core_common
             }
         }
 
@@ -68,13 +67,13 @@ kotlin {
             dependencies {
                 implementation rootProject.ext.kotlin_stdlib_jdk7
                 implementation rootProject.ext.androidx_app_compat
-                implementation rootProject.ext.kotlinx_coroutines_android
+//                implementation rootProject.ext.kotlinx_coroutines_android
             }
         }
 
         iosMain {
             dependencies {
-                implementation rootProject.ext.kotlinx_coroutines_native
+//                implementation rootProject.ext.kotlinx_coroutines_native
             }
         }
 
